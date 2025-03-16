@@ -17,17 +17,16 @@
       color-scheme: dark;
     }
 
-    body {
+    html, body {
       margin: 0;
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       background: radial-gradient(circle at center, #1f1f1f, #0e0e0e);
       color: #ffffff;
       font-family: 'Helvetica Neue', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      height: 100%;
       overflow: hidden;
+      overscroll-behavior: none;
+      touch-action: none;
     }
 
     .container {
@@ -61,7 +60,6 @@
       margin-top: 2rem;
     }
 
-    /* 通常の操作ボタンのみ対象 */
     .container .buttons button {
       flex: 1 0 40%;
       min-width: 100px;
@@ -88,7 +86,6 @@
       box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
-    /* ヘルプボタン（アイコンのみ・シャープに） */
     .help-btn {
       position: fixed;
       top: env(safe-area-inset-top, 1rem);
@@ -169,11 +166,17 @@
   </style>
 </head>
 <body>
-  <!-- ヘルプボタン（SVG） -->
+  <!-- ヘルプボタン（初期のSVG） -->
   <button class="help-btn" onclick="toggleHelp()" aria-label="使い方">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="18" r="1.5"/>
-      <path d="M12 4c-2.76 0-5 2.24-5 5h2c0-1.65 1.35-3 3-3s3 1.35 3 3c0 1.5-1.5 2-2.25 2.7S12 13 12 14h2c0-.55.45-1 1-1 .88 0 2-.89 2-3 0-2.76-2.24-5-5-5z"/>
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 
+               10-4.48 10-10S17.52 2 12 2zm0 17c-.83 0-1.5-.67-1.5-1.5S11.17 
+               16 12 16s1.5.67 1.5 1.5S12.83 19 12 19zm1.07-7.75c-.9.92-1.07 
+               1.17-1.07 2.25h-2v-.5c0-1.1.45-2.1 
+               1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 
+               0-1.1-.9-2-2-2s-2 .9-2 
+               2H7c0-2.21 1.79-4 4-4s4 1.79 4 
+               4c0 .88-.36 1.68-.93 2.25z"/>
     </svg>
   </button>
 
@@ -186,7 +189,6 @@
     </div>
   </div>
 
-  <!-- ヘルプモーダル -->
   <div class="help-modal" id="helpModal">
     <div class="help-content">
       <h2>使い方</h2>

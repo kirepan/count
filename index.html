@@ -61,7 +61,8 @@
       margin-top: 2rem;
     }
 
-    button {
+    /* 通常の操作ボタンのみ対象 */
+    .container .buttons button {
       flex: 1 0 40%;
       min-width: 100px;
       padding: 1.2rem 1.5rem;
@@ -78,22 +79,22 @@
       backdrop-filter: blur(10px);
     }
 
-    button:hover {
+    .container .buttons button:hover {
       background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
     }
 
-    button:active {
+    .container .buttons button:active {
       transform: scale(0.95);
       box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
-    /* ヘルプボタン（右上・SVG） */
+    /* SVGの？ヘルプボタン */
     .help-btn {
       position: fixed;
       top: env(safe-area-inset-top, 1rem);
       right: env(safe-area-inset-right, 1rem);
-      width: 30px;
-      height: 30px;
+      width: 3.2rem;
+      height: 3.2rem;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
@@ -106,21 +107,20 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
       transition: background 0.2s, transform 0.1s;
     }
-    
+
     .help-btn:hover {
       background: rgba(255, 255, 255, 0.15);
     }
-    
+
     .help-btn:active {
       transform: scale(0.95);
     }
-    
+
     .help-btn svg {
-      width: 30px;
-      height: 30px;
+      width: 26px;
+      height: 26px;
       fill: white;
     }
-
 
     /* ヘルプモーダル */
     .help-modal {
@@ -163,7 +163,7 @@
         font-size: 4rem;
       }
 
-      button {
+      .container .buttons button {
         font-size: 1.4rem;
         padding: 1rem;
       }
@@ -174,14 +174,8 @@
   <!-- SVGヘルプボタン -->
   <button class="help-btn" onclick="toggleHelp()" aria-label="使い方">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
-               10-4.48 10-10S17.52 2 12 2zm0 18c-.83 0-1.5-.67-1.5-1.5S11.17
-               17 12 17s1.5.67 1.5 1.5S12.83 20 12 20zm1.07-7.75c-.9.92-1.07
-               1.17-1.07 2.25h-2v-.5c0-1.1.45-2.1
-               1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41
-               0-1.1-.9-2-2-2s-2 .9-2
-               2H7c0-2.21 1.79-4 4-4s4 1.79 4
-               4c0 .88-.36 1.68-.93 2.25z"/>
+      <circle cx="12" cy="18" r="1.5"/>
+      <path d="M12 4c-2.76 0-5 2.24-5 5h2c0-1.65 1.35-3 3-3s3 1.35 3 3c0 1.5-1.5 2-2.25 2.7S12 13 12 14h2c0-.55.45-1 1-1 .88 0 2-.89 2-3 0-2.76-2.24-5-5-5z"/>
     </svg>
   </button>
 

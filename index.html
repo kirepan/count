@@ -87,7 +87,7 @@
       box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
-    /* ヘルプボタン（右上固定） */
+    /* ヘルプボタン（右上・SVG） */
     .help-btn {
       position: fixed;
       top: env(safe-area-inset-top, 1rem);
@@ -96,17 +96,23 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
       color: white;
-      font-size: 1.2rem;
       width: 2.5rem;
       height: 2.5rem;
-      text-align: center;
-      line-height: 2.3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
       z-index: 100;
       backdrop-filter: blur(8px);
     }
 
-    /* モーダル */
+    .help-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    /* ヘルプモーダル */
     .help-modal {
       position: fixed;
       inset: 0;
@@ -155,7 +161,19 @@
   </style>
 </head>
 <body>
-  <button class="help-btn" onclick="toggleHelp()">？</button>
+  <!-- SVGヘルプボタン -->
+  <button class="help-btn" onclick="toggleHelp()" aria-label="使い方">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 
+               10-4.48 10-10S17.52 2 12 2zm0 17c-.83 0-1.5-.67-1.5-1.5S11.17 
+               16 12 16s1.5.67 1.5 1.5S12.83 19 12 19zm1.07-7.75c-.9.92-1.07 
+               1.17-1.07 2.25h-2v-.5c0-1.1.45-2.1 
+               1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 
+               0-1.1-.9-2-2-2s-2 .9-2 
+               2H7c0-2.21 1.79-4 4-4s4 1.79 4 
+               4c0 .88-.36 1.68-.93 2.25z"/>
+    </svg>
+  </button>
 
   <div class="container">
     <div class="count" id="counter">0</div>
@@ -224,7 +242,6 @@
       modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    // Service Worker 登録
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(() => {
         console.log('Service Worker registered');

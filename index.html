@@ -3,11 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>カウンター</title>
+
+  <!-- iOSアプリ風表示設定 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="カウンター" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
 
-  <title>カウンター</title>
   <style>
     :root {
       color-scheme: dark;
@@ -15,7 +19,7 @@
 
     body {
       margin: 0;
-      padding: 0;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       background: radial-gradient(circle at center, #1f1f1f, #0e0e0e);
       color: #ffffff;
       font-family: 'Helvetica Neue', sans-serif;
@@ -51,19 +55,20 @@
 
     .buttons {
       display: flex;
-      gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
     }
 
     button {
-      flex: 1 0 30%;
-      min-width: 80px;
-      padding: 1rem;
-      font-size: 1.3rem;
+      flex: 1 0 40%;
+      min-width: 100px;
+      padding: 1.2rem 1.5rem;
+      font-size: 1.6rem;
       font-weight: bold;
       border: none;
-      border-radius: 1rem;
+      border-radius: 1.2rem;
       background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
       color: #fff;
       box-shadow:
@@ -82,24 +87,101 @@
       box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
+    /* ヘルプボタン（右上固定） */
+    .help-btn {
+      position: fixed;
+      top: env(safe-area-inset-top, 1rem);
+      right: env(safe-area-inset-right, 1rem);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      text-align: center;
+      line-height: 2.3rem;
+      cursor: pointer;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    /* モーダル */
+    .help-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99;
+    }
+
+    .help-content {
+      background: #222;
+      color: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 90vw;
+      text-align: left;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .help-content h2 {
+      margin-top: 0;
+    }
+
+    .close-btn {
+      margin-top: 1rem;
+      background: #444;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
     @media (orientation: landscape) {
       .count {
         font-size: 4rem;
       }
+
       button {
-        font-size: 1.1rem;
-        padding: 0.8rem;
+        font-size: 1.4rem;
+        padding: 1rem;
       }
     }
   </style>
 </head>
 <body>
+  <button class="help-btn" onclick="toggleHelp()">？</button>
+
   <div class="container">
     <div class="count" id="counter">0</div>
     <div class="buttons">
       <button onclick="decrement()">－</button>
       <button onclick="reset()">リセット</button>
       <button onclick="increment()">＋</button>
+    </div>
+  </div>
+
+  <!-- ヘルプモーダル -->
+  <div class="help-modal" id="helpModal">
+    <div class="help-content">
+      <h2>使い方</h2>
+      <ul>
+        <li>＋ ボタン：カウントを1つ増やします</li>
+        <li>－ ボタン：カウントを1つ減らします（0未満にはなりません）</li>
+        <li>リセット：カウントを0に戻します</li>
+        <li>このアプリはオフラインでも使えます</li>
+        <li>
+          ホーム画面に追加するには：<br />
+          Safariでこのページを開き、下の <strong>共有ボタン（□と↑のマーク）</strong> を押し、<br />
+          <strong>「ホーム画面に追加」</strong> を選んでください
+        </li>
+      </ul>
+      <button onclick="toggleHelp()" class="close-btn">閉じる</button>
     </div>
   </div>
 
@@ -135,6 +217,18 @@
     function reset() {
       count = 0;
       updateDisplay();
+    }
+
+    function toggleHelp() {
+      const modal = document.getElementById('helpModal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // Service Worker 登録
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => {
+        console.log('Service Worker registered');
+      });
     }
   </script>
 </body>

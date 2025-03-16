@@ -12,29 +12,32 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #121212;
+      background: radial-gradient(circle at center, #1f1f1f, #0e0e0e);
       color: #ffffff;
       font-family: 'Helvetica Neue', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
 
     .container {
-      text-align: center;
-      background-color: #1e1e1e;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       padding: 2rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      text-align: center;
       width: 90vw;
       max-width: 400px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .count {
-      font-size: 6rem;
-      margin-bottom: 1.5rem;
+      font-size: 5rem;
       font-weight: bold;
+      margin-bottom: 2rem;
       transition: transform 0.2s ease;
     }
 
@@ -44,29 +47,35 @@
 
     .buttons {
       display: flex;
-      justify-content: space-between;
       gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     button {
-      flex: 1;
+      flex: 1 0 30%;
+      min-width: 80px;
       padding: 1rem;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: bold;
       border: none;
       border-radius: 1rem;
       background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-      color: #ffffff;
-      box-shadow: inset 2px 2px 4px #101010, inset -2px -2px 4px #2e2e2e;
+      color: #fff;
+      box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.4),
+        inset 0 -2px 4px rgba(255, 255, 255, 0.1);
       transition: all 0.2s ease;
-      cursor: pointer;
+      backdrop-filter: blur(10px);
     }
 
     button:hover {
-      background: #333333;
+      background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
     }
 
     button:active {
-      transform: scale(0.97);
+      transform: scale(0.95);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
     @media (orientation: landscape) {
@@ -74,7 +83,8 @@
         font-size: 4rem;
       }
       button {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        padding: 0.8rem;
       }
     }
   </style>
@@ -102,7 +112,7 @@
 
     function vibrate() {
       if (navigator.vibrate) {
-        navigator.vibrate(15); // 15ミリ秒振動
+        navigator.vibrate(15);
       }
     }
 
@@ -112,8 +122,10 @@
     }
 
     function decrement() {
-      count--;
-      updateDisplay();
+      if (count > 0) {
+        count--;
+        updateDisplay();
+      }
     }
 
     function reset() {

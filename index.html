@@ -92,19 +92,35 @@
       position: fixed;
       top: env(safe-area-inset-top, 1rem);
       right: env(safe-area-inset-right, 1rem);
+      width: 3.2rem;
+      height: 3.2rem;
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
-      color: white;
-      width: 2.5rem;
-      height: 2.5rem;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
       z-index: 100;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: background 0.2s, transform 0.1s;
     }
+    
+    .help-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .help-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .help-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
 
     .help-btn svg {
       width: 20px;

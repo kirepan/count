@@ -141,4 +141,114 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
 
-    .
+    .help-content h2 {
+      margin-top: 0;
+    }
+
+    .close-btn {
+      margin-top: 1rem;
+      background: #444;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    @media (orientation: landscape) {
+      .count {
+        font-size: 4rem;
+      }
+
+      .container .buttons button {
+        font-size: 1.4rem;
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ヘルプボタン（SVG） -->
+  <button class="help-btn" onclick="toggleHelp()" aria-label="使い方">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="18" r="1.5"/>
+      <path d="M12 4c-2.76 0-5 2.24-5 5h2c0-1.65 1.35-3 3-3s3 1.35 3 3c0 1.5-1.5 2-2.25 2.7S12 13 12 14h2c0-.55.45-1 1-1 .88 0 2-.89 2-3 0-2.76-2.24-5-5-5z"/>
+    </svg>
+  </button>
+
+  <div class="container">
+    <div class="count" id="counter">0</div>
+    <div class="buttons">
+      <button onclick="decrement()">－</button>
+      <button onclick="reset()">リセット</button>
+      <button onclick="increment()">＋</button>
+    </div>
+  </div>
+
+  <!-- ヘルプモーダル -->
+  <div class="help-modal" id="helpModal">
+    <div class="help-content">
+      <h2>使い方</h2>
+      <ul>
+        <li>＋ ボタン：カウントを1つ増やします</li>
+        <li>－ ボタン：カウントを1つ減らします（0未満にはなりません）</li>
+        <li>リセット：カウントを0に戻します</li>
+        <li>このアプリはオフラインでも使えます</li>
+        <li>
+          ホーム画面に追加するには：<br />
+          Safariでこのページを開き、下の <strong>共有ボタン（□と↑のマーク）</strong> を押し、<br />
+          <strong>「ホーム画面に追加」</strong> を選んでください
+        </li>
+      </ul>
+      <button onclick="toggleHelp()" class="close-btn">閉じる</button>
+    </div>
+  </div>
+
+  <script>
+    let count = 0;
+    const counterEl = document.getElementById('counter');
+
+    function updateDisplay() {
+      counterEl.textContent = count;
+      counterEl.classList.add('bump');
+      setTimeout(() => counterEl.classList.remove('bump'), 150);
+      vibrate();
+    }
+
+    function vibrate() {
+      if (navigator.vibrate) {
+        navigator.vibrate(15);
+      }
+    }
+
+    function increment() {
+      count++;
+      updateDisplay();
+    }
+
+    function decrement() {
+      if (count > 0) {
+        count--;
+        updateDisplay();
+      }
+    }
+
+    function reset() {
+      count = 0;
+      updateDisplay();
+    }
+
+    function toggleHelp() {
+      const modal = document.getElementById('helpModal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => {
+        console.log('Service Worker registered');
+      });
+    }
+  </script>
+</body>
+</html>

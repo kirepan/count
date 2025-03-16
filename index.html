@@ -94,7 +94,7 @@
       right: env(safe-area-inset-right, 1rem);
       width: 3.2rem;
       height: 3.2rem;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
       display: flex;
@@ -102,7 +102,7 @@
       align-items: center;
       cursor: pointer;
       z-index: 100;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
       transition: background 0.2s, transform 0.1s;
     }
@@ -116,17 +116,11 @@
     }
     
     .help-btn svg {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       fill: white;
     }
 
-
-    .help-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: white;
-    }
 
     /* ヘルプモーダル */
     .help-modal {
@@ -180,13 +174,13 @@
   <!-- SVGヘルプボタン -->
   <button class="help-btn" onclick="toggleHelp()" aria-label="使い方">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 
-               10-4.48 10-10S17.52 2 12 2zm0 17c-.83 0-1.5-.67-1.5-1.5S11.17 
-               16 12 16s1.5.67 1.5 1.5S12.83 19 12 19zm1.07-7.75c-.9.92-1.07 
-               1.17-1.07 2.25h-2v-.5c0-1.1.45-2.1 
-               1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 
-               0-1.1-.9-2-2-2s-2 .9-2 
-               2H7c0-2.21 1.79-4 4-4s4 1.79 4 
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
+               10-4.48 10-10S17.52 2 12 2zm0 18c-.83 0-1.5-.67-1.5-1.5S11.17
+               17 12 17s1.5.67 1.5 1.5S12.83 20 12 20zm1.07-7.75c-.9.92-1.07
+               1.17-1.07 2.25h-2v-.5c0-1.1.45-2.1
+               1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41
+               0-1.1-.9-2-2-2s-2 .9-2
+               2H7c0-2.21 1.79-4 4-4s4 1.79 4
                4c0 .88-.36 1.68-.93 2.25z"/>
     </svg>
   </button>

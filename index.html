@@ -123,9 +123,24 @@
       }
     }
 
+    // 7分のタイマーを開始する関数
+    function startTimer() {
+      alert("7分タイマー開始");
+      setTimeout(() => {
+        alert("7分経過しました！");
+      }, 7 * 60 * 1000); // 7分 = 7*60*1000ミリ秒
+    }
+
     function increment() {
       count++;
-      updateDisplay();
+      // カウントが7に達したらリセットしてタイマーを起動
+      if (count === 7) {
+        count = 0;
+        updateDisplay();
+        startTimer();
+      } else {
+        updateDisplay();
+      }
     }
 
     function decrement() {

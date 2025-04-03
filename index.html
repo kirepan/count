@@ -14,7 +14,6 @@
     :root {
       color-scheme: dark;
     }
-
     body {
       margin: 0;
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -27,7 +26,6 @@
       height: 100vh;
       overflow: hidden;
     }
-
     .container {
       backdrop-filter: blur(20px);
       background: rgba(255, 255, 255, 0.05);
@@ -39,25 +37,22 @@
       max-width: 400px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .count {
       font-size: 5rem;
       font-weight: bold;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       transition: transform 0.2s ease;
     }
-
     .count.bump {
       transform: scale(1.1);
     }
-
     .buttons {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
+      margin-top: 1rem;
     }
-
     button {
       flex: 1 0 30%;
       min-width: 80px;
@@ -68,23 +63,27 @@
       border-radius: 1rem;
       background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
       color: #fff;
-      box-shadow:
-        0 4px 6px rgba(0, 0, 0, 0.4),
-        inset 0 -2px 4px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4),
+                  inset 0 -2px 4px rgba(255, 255, 255, 0.1);
       transition: all 0.2s ease;
       backdrop-filter: blur(10px);
       cursor: pointer;
     }
-
     button:hover {
       background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
     }
-
     button:active {
       transform: scale(0.95);
       box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
     }
-
+    /* タイマー表示用スタイル */
+    #timerContainer {
+      font-size: 2rem;
+      margin-top: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 0.5rem;
+      border-radius: 1rem;
+    }
     @media (orientation: landscape) {
       .count {
         font-size: 4rem;
@@ -93,12 +92,35 @@
         font-size: 1.1rem;
         padding: 0.8rem;
       }
+      #timerContainer {
+        font-size: 1.8rem;
+      }
+    }
+    /* iPhone 12 mini 用の最適化 */
+    @media (max-width: 375px) {
+      .container {
+        width: 95vw;
+        padding: 1.5rem;
+      }
+      .count {
+        font-size: 4rem;
+      }
+      button {
+        font-size: 1.1rem;
+        padding: 0.8rem;
+      }
+      #timerContainer {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="count" id="counter">0</div>
+    <!-- タイマー表示エリア（初期は非表示） -->
+    <div id="timerContainer" style="display: none;"></div>
     <div class="buttons">
       <button onclick="decrement()">－</button>
       <button onclick="reset()">リセット</button>
@@ -109,6 +131,7 @@
   <script>
     let count = 0;
     const counterEl = document.getElementById('counter');
+    let timerInterval = null;
 
     function updateDisplay() {
       counterEl.textContent = count;
@@ -123,17 +146,45 @@
       }
     }
 
-    // 7分のタイマーを開始する関数
+    // タイマー表示の更新（mm:ss形式）
+    function updateTimerDisplay(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      document.getElementById('timerContainer').textContent =
+        `タイマー: ${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // ボタンの有効/無効を切り替える
+    function setButtonsDisabled(disabled) {
+      const buttons = document.querySelectorAll('.buttons button');
+      buttons.forEach(btn => {
+        btn.disabled = disabled;
+      });
+    }
+
+    // 7分タイマーを開始する関数
     function startTimer() {
-      alert("7分タイマー開始");
-      setTimeout(() => {
-        alert("7分経過しました！");
-      }, 7 * 60 * 1000); // 7分 = 7*60*1000ミリ秒
+      let timerRemaining = 7 * 60; // 7分 = 420秒
+      const timerContainer = document.getElementById('timerContainer');
+      timerContainer.style.display = 'block';
+      updateTimerDisplay(timerRemaining);
+      setButtonsDisabled(true); // タイマー実行中はボタンを無効化
+
+      timerInterval = setInterval(() => {
+        timerRemaining--;
+        updateTimerDisplay(timerRemaining);
+        if (timerRemaining <= 0) {
+          clearInterval(timerInterval);
+          alert("7分経過しました！");
+          timerContainer.style.display = 'none';
+          setButtonsDisabled(false); // アラート後にボタンを再度有効化
+        }
+      }, 1000);
     }
 
     function increment() {
       count++;
-      // カウントが7に達したらリセットしてタイマーを起動
+      // カウントが7になったらカウントをリセットし、タイマーを開始
       if (count === 7) {
         count = 0;
         updateDisplay();
